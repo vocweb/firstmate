@@ -1,0 +1,33 @@
+== NEW (HEAD) probe inside real bun-shim omp ==
+claudecode=1 fm_omp=unset omp_profile=unset
+detect(default): omp
+detect(CLAUDECODE=1): omp
+detect(CLAUDECODE=1 FM_OMP_HARNESS=omp): omp
+detect(CODEX_HOME marker via CLAUDECODE unset FM_OMP_HARNESS=omp): omp
+
+parent: 92222 bun bun /Users/tien/.bun/bin/omp
+lock ancestry_pid == omp pid: 92222 (expect 92222)
+pid_alive(omp)=yes
+classify(real omp)=agent
+decoy [bun d/ompd]: classify=other alive=no
+decoy [bun d/comp]: classify=other alive=no
+decoy [bun d/x.js --root /y/omp]: classify=other alive=no
+decoy [bun d/x.js d/omp]: classify=other alive=no
+decoy [bun d/omp]: classify=agent alive=yes
+
+== BASE ==
+claudecode=1 fm_omp=unset omp_profile=unset
+detect(default): claude
+detect(CLAUDECODE=1): claude
+detect(CLAUDECODE=1 FM_OMP_HARNESS=omp): claude
+detect(CODEX_HOME marker via CLAUDECODE unset FM_OMP_HARNESS=omp): unknown
+
+parent: 92222 bun bun /Users/tien/.bun/bin/omp
+lock ancestry_pid == omp pid:  (expect 92222)
+pid_alive(omp)=no
+classify(real omp)=other
+decoy [bun d/ompd]: classify=other alive=no
+decoy [bun d/comp]: classify=other alive=no
+decoy [bun d/x.js --root /y/omp]: classify=other alive=no
+decoy [bun d/x.js d/omp]: classify=other alive=no
+decoy [bun d/omp]: classify=other alive=no
